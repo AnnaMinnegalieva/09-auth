@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { getMe, updateMe } from "@/lib/api/clientApi";
 import css from "./EditProfile.module.css";
+import { useAuthStore } from "@/lib/store/authStore";
 
 const EditProfile = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
     getMe().then((user) => {
@@ -20,11 +22,14 @@ const EditProfile = () => {
     });
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await updateMe({ username });
-    router.push("/profile");
-  };
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const updatedUser = await updateMe({ username });
+  if (updatedUser) {
+    setUser(updatedUser);
+  }
+  router.push("/profile");
+};
 
   const handleCancel = () => {
     router.push("/profile");
