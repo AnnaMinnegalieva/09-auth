@@ -3,7 +3,7 @@ import {
   HydrationBoundary,
   dehydrate,
 } from "@tanstack/react-query";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/serverApi";
 import type { NoteTag } from "@/types/note";
 import type { Metadata } from "next";
 import NotesClient from "./Notes.client";
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${filter} | NoteHub`,
       description: `Browse notes filtered by ${filter} in NoteHub`,
-      url: `https://08-zustand.vercel.app/notes/filter/${slug[0]}`,
+      url: `https://09-auth.vercel.app/notes/filter/${slug[0]}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
